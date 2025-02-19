@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Game Development Website</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <header class="main-header">
+        <div class="header-container">
+            <div class="logo">
+                <h1>Hyperlume</h1>
+            </div>
+            <nav class="nav-menu">
+                <ul>
+                    <li><a href="#home">Home</a></li>
+                    <li><a href="#about">OurTeam</a></li>
+                    <li><a href="#contact">Contact</a></li>
+                </ul>
+            </nav>
+            <div class="auth-buttons">
+                <button class="btn login">Login</button>
+                <button class="btn register">Register</button>
+            </div>
+        </div>
+    </header>
+    <div class="mainbody">
+        <div class="video-background">
+            <div class="overlay"></div>
+            <video autoplay muted loop id="myVideo">
+                <source src="Mario1.mp4" width="100px" height="100px" type="video/mp4">
+                Your browser does not support the video tag.
+            </video>
+        </div>
+        <div class="content">
+            <h1 class="welcome-text">Welcome to Hyperlume</h1>
+        </div>
+    </div>
+    <script src="script.js"></script>
+</body>
+</html>
