@@ -29,14 +29,126 @@
         <div class="video-background">
             <div class="overlay"></div>
             <video autoplay muted loop id="myVideo">
-                <source src="Mario.mp4" width="100px" height="100px" type="video/mp4">
+                <source src="Assets/Mario.mp4" width="100px" height="100px" type="video/mp4">
                 Your browser does not support the video tag.
             </video>
         </div>
         <div class="content">
             <h1 class="welcome-text">Welcome to Hyperlume</h1>
         </div>
+
+        <!-- Add team submission section -->
+        <div class="submission-section">
+            <div class="submission-container">
+                <h2>Team Registration</h2>
+                <form id="teamSubmissionForm" class="submission-form">
+                    <div class="form-group">
+                        <label for="teamName">Team Name</label>
+                        <input type="text" id="teamName" required>
+                    </div>
+                    
+                    <!-- Team Leader Details -->
+                    <div class="member-section">
+                        <h3>Team Leader</h3>
+                        <div class="form-group">
+                            <label for="leaderName">Full Name</label>
+                            <input type="text" id="leaderName" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="leaderEmail">ADYPU Email</label>
+                            <input type="email" id="leaderEmail" pattern=".+@adypu\.edu\.in" title="Please use your ADYPU email" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="leaderURN">URN Number</label>
+                            <input type="text" id="leaderURN" required>
+                        </div>
+                    </div>
+
+                    <!-- Member 2 Details -->
+                    <div class="member-section">
+                        <h3>Member 2</h3>
+                        <div class="form-group">
+                            <label for="member2Name">Full Name</label>
+                            <input type="text" id="member2Name" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="member2Email">ADYPU Email</label>
+                            <input type="email" id="member2Email" pattern=".+@adypu\.edu\.in" title="Please use your ADYPU email" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="member2URN">URN Number</label>
+                            <input type="text" id="member2URN" required>
+                        </div>
+                    </div>
+
+                    <!-- Member 3 Details (Optional) -->
+                    <div class="member-section">
+                        <h3>Member 3 (Optional)</h3>
+                        <div class="form-group">
+                            <label for="member3Name">Full Name</label>
+                            <input type="text" id="member3Name">
+                        </div>
+                        <div class="form-group">
+                            <label for="member3Email">ADYPU Email</label>
+                            <input type="email" id="member3Email" pattern=".+@adypu\.edu\.in" title="Please use your ADYPU email">
+                        </div>
+                        <div class="form-group">
+                            <label for="member3URN">URN Number</label>
+                            <input type="text" id="member3URN">
+                        </div>
+                    </div>
+
+                    <button type="submit" class="btn submit-btn">Submit Team Registration</button>
+                </form>
+            </div>
+        </div>
     </div>
+
+    <!-- Add the modal forms after the mainbody div -->
+    <div class="modal" id="loginModal">
+        <div class="modal-content">
+            <span class="close">&times;</span>
+            <h2>Login</h2>
+            <form id="loginForm">
+                <div class="form-group">
+                    <label for="loginEmail">Email</label>
+                    <input type="email" id="loginEmail" required>
+                </div>
+                <div class="form-group">
+                    <label for="loginPassword">Password</label>
+                    <input type="password" id="loginPassword" required>
+                </div>
+                <button type="submit" class="btn submit-btn">Login</button>
+            </form>
+        </div>
+    </div>
+
+    <div class="modal" id="registerModal">
+        <div class="modal-content">
+            <span class="close">&times;</span>
+            <h2>Register</h2>
+            <form id="registerForm">
+                <div class="form-group">
+                    <label for="registerName">Full Name</label>
+                    <input type="text" id="registerName" required>
+                </div>
+                <div class="form-group">
+                    <label for="registerEmail">Email</label>
+                    <input type="email" id="registerEmail" required>
+                </div>
+                <div class="form-group">
+                    <label for="registerPassword">Password</label>
+                    <input type="password" id="registerPassword" required>
+                </div>
+                <div class="form-group">
+                    <label for="confirmPassword">Confirm Password</label>
+                    <input type="password" id="confirmPassword" required>
+                </div>
+                <button type="submit" class="btn submit-btn">Register</button>
+            </form>
+        </div>
+    </div>
+
     <script src="script.js"></script>
 </body>
 </html>
