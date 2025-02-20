@@ -11,6 +11,8 @@ body {
     background-color: #1a1a1a;
     overflow-x: hidden; /* Prevent horizontal scroll */
     position: relative;
+    scroll-behavior: smooth;
+    -webkit-overflow-scrolling: touch; /* For better scrolling on iOS */
 }
 
 .main-header {
@@ -22,6 +24,11 @@ body {
     left: 0;
     width: 100%;
     z-index: 1000;
+    transition: transform 0.3s ease;
+}
+
+.main-header.hidden {
+    transform: translateY(-100%);
 }
 
 .header-container {
@@ -553,7 +560,7 @@ body {
     width: 100%;
     height: 100%;
     z-index: -1;
-    background-color: #1a1a1a;
+    background-color: rgba(0, 0, 0, 0.9);
     overflow: hidden;
 }
 
@@ -643,7 +650,7 @@ body {
     position: absolute;
     width: 32px;
     height: 32px;
-    background-image: url('Coin.png');
+    background-image: url('Assets/Coin.png');
     background-size: contain;
     background-repeat: no-repeat;
     opacity: 0.6;
@@ -662,7 +669,7 @@ body {
     position: absolute;
     width: 32px;
     height: 32px;
-    background-image: url('Mushroom.png');
+    background-image: url('Assets/Mushroom.png');
     background-size: contain;
     background-repeat: no-repeat;
     opacity: 0.6;
@@ -694,7 +701,7 @@ body {
     background: rgba(0, 0, 0, 0.8);
     border-radius: 20px;
     padding: 40px;
-    box-shadow: 0 10px 30px rgba(255, 0, 247, 0.2);
+    box-shadow: 0 10px 30px rgba(255, 132, 0, 0.2);
     margin-top: 40px;
     transition: transform 0.3s ease;
     border: 2px solid #ff8800;
@@ -804,4 +811,227 @@ body {
     margin: 0;
     color: #333;
     font-size: 1.2rem;
+}
+
+/* Add smooth scrolling behavior to the html element */
+html {
+    scroll-behavior: smooth;
+    height: 100%;
+    overflow-y: scroll; /* Ensure scrollbar is always visible to prevent layout shifts */
+}
+
+/* About page specific styles */
+.container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 20px;
+    color: white;
+}
+
+.container h1 {
+    font-family: 'Press Start 2P', cursive;
+    font-size: 3rem;
+    margin-bottom: 40px;
+    color: white;
+    text-shadow: 2px 2px 0px #ff00f7,
+                 4px 4px 0px #9700ff;
+}
+
+.team-section {
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 15px;
+    padding: 30px;
+    margin-bottom: 40px;
+    border: 2px solid #ff8800;
+}
+
+.team-section h2 {
+    font-family: 'Press Start 2P', cursive;
+    color: #ff8800;
+    font-size: 2rem;
+    margin-bottom: 30px;
+    text-shadow: 2px 2px 4px rgba(255, 136, 0, 0.5);
+}
+
+.team-members {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 20px;
+}
+
+.member {
+    background: rgba(0, 0, 0, 0.5);
+    padding: 20px;
+    border-radius: 10px;
+    text-align: center;
+    border: 1px solid #ff8800;
+    transition: all 0.3s ease;
+}
+
+.member:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 0 20px rgba(255, 136, 0, 0.3);
+    border-color: #ff00f7;
+}
+
+.member h3 {
+    font-family: 'Press Start 2P', cursive;
+    color: white;
+    font-size: 1.2rem;
+    margin: 0;
+}
+
+/* Adjust container margin for header */
+.container {
+    margin-top: 120px !important;
+}
+
+/* Media Queries for About Page */
+@media screen and (max-width: 1200px) {
+    .container {
+        padding: 20px;
+        margin-top: 100px !important;
+    }
+
+    .container h1 {
+        font-size: 2.5rem;
+    }
+
+    .team-section h2 {
+        font-size: 1.8rem;
+    }
+}
+
+@media screen and (max-width: 768px) {
+    .container h1 {
+        font-size: 2rem;
+        text-align: center;
+    }
+
+    .team-section {
+        padding: 20px;
+    }
+
+    .team-section h2 {
+        font-size: 1.5rem;
+        text-align: center;
+    }
+
+    .team-members {
+        grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+        gap: 15px;
+    }
+
+    .member {
+        padding: 15px;
+    }
+
+    .member h3 {
+        font-size: 1rem;
+    }
+
+    /* Update nav-menu styles */
+    .nav-menu {
+        width: 100%;
+    }
+
+    .nav-menu ul {
+        flex-direction: column;
+        gap: 0.5rem;  /* Reduced from 1rem */
+        text-align: center;
+        padding: 0.5rem 0;  /* Add padding */
+    }
+
+    .nav-menu a {
+        font-size: 0.9rem;  /* Smaller font size */
+        padding: 0.3rem 0;  /* Add some vertical padding */
+        display: block;
+    }
+
+    /* Make header more compact */
+    .header-container {
+        flex-direction: column;
+        padding: 0.5rem;  /* Reduced from 1rem */
+        gap: 0.5rem;  /* Reduced from 1rem */
+    }
+
+    .logo h1 {
+        font-size: 1.2rem;  /* Smaller logo text */
+    }
+
+    .auth-buttons {
+        margin: 0;
+        justify-content: center;
+        gap: 0.5rem;  /* Reduced gap between buttons */
+    }
+
+    .btn {
+        padding: 0.3rem 0.8rem;  /* Smaller padding */
+        font-size: 0.7rem;  /* Smaller font size */
+    }
+}
+
+@media screen and (max-width: 480px) {
+    .container h1 {
+        font-size: 1.5rem;
+    }
+
+    .team-section h2 {
+        font-size: 1.2rem;
+    }
+
+    .team-members {
+        grid-template-columns: 1fr;
+    }
+
+    .member h3 {
+        font-size: 0.9rem;
+    }
+
+    /* Adjust coin and mushroom sizes for mobile */
+    .coin, .mushroom {
+        width: 24px;
+        height: 24px;
+    }
+
+    /* Even smaller for mobile */
+    .nav-menu a {
+        font-size: 0.8rem;
+    }
+
+    .logo h1 {
+        font-size: 1rem;
+    }
+
+    .btn {
+        padding: 0.25rem 0.6rem;
+        font-size: 0.6rem;
+    }
+}
+
+/* Dark mode media query */
+@media (prefers-color-scheme: dark) {
+    .team-section {
+        background: rgba(255, 255, 255, 0.05);
+    }
+
+    .member {
+        background: rgba(0, 0, 0, 0.7);
+        border-color: #ff8800;
+    }
+
+    .member:hover {
+        border-color: #ff00f7;
+        box-shadow: 0 0 20px rgba(255, 0, 247, 0.2);
+    }
+}
+
+/* Add these new styles */
+.header-trigger-area {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 10vh; /* 10% of viewport height */
+    z-index: 999;
 }

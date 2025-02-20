@@ -7,8 +7,39 @@
     <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-    <div class="container">
-        <h1>About Our Team</h1>
+    <!-- Add navigation menu -->
+    <header class="main-header">
+        <div class="header-container">
+            <div class="logo">
+                <h1>Hyperlume</h1>
+            </div>
+            <nav class="nav-menu">
+                <ul>
+                    <li><a href="index.html">Home</a></li>
+                    <li><a href="about.html">OurTeam</a></li>
+                    <li><a href="#contact">Contact</a></li>
+                </ul>
+            </nav>
+            <div class="auth-buttons">
+                <button class="btn login">Login</button>
+                <button class="btn register">Register</button>
+            </div>
+        </div>
+    </header>
+
+    <!-- Add background effects containers -->
+    <div class="retro-background">
+        <div class="grid"></div>
+        <!-- Scanlines will be added by JavaScript -->
+    </div>
+    
+    <div class="coin-background">
+        <!-- Coins will be added by JavaScript -->
+    </div>
+
+    <!-- Main content -->
+    <div class="container" style="margin-top: 100px; position: relative; z-index: 2;">
+        <h1>Our Team</h1>
         
         <section class="team-section">
             <h2>Core Team</h2>
@@ -42,6 +73,51 @@
                 </div>
             </div>
         </section>
+    </div>
+
+    <!-- Add modal forms -->
+    <div class="modal" id="loginModal">
+        <div class="modal-content">
+            <span class="close">&times;</span>
+            <h2>Login</h2>
+            <form id="loginForm">
+                <div class="form-group">
+                    <label for="loginEmail">Email</label>
+                    <input type="email" id="loginEmail" required>
+                </div>
+                <div class="form-group">
+                    <label for="loginPassword">Password</label>
+                    <input type="password" id="loginPassword" required>
+                </div>
+                <button type="submit" class="btn submit-btn">Login</button>
+            </form>
+        </div>
+    </div>
+
+    <div class="modal" id="registerModal">
+        <div class="modal-content">
+            <span class="close">&times;</span>
+            <h2>Register</h2>
+            <form id="registerForm">
+                <div class="form-group">
+                    <label for="registerName">Full Name</label>
+                    <input type="text" id="registerName" required>
+                </div>
+                <div class="form-group">
+                    <label for="registerEmail">Email</label>
+                    <input type="email" id="registerEmail" required>
+                </div>
+                <div class="form-group">
+                    <label for="registerPassword">Password</label>
+                    <input type="password" id="registerPassword" required>
+                </div>
+                <div class="form-group">
+                    <label for="confirmPassword">Confirm Password</label>
+                    <input type="password" id="confirmPassword" required>
+                </div>
+                <button type="submit" class="btn submit-btn">Register</button>
+            </form>
+        </div>
     </div>
 
     <script src="script.js"></script>

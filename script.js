@@ -9,21 +9,24 @@ const registerBtn = document.querySelector('.btn.register');
 // Get close buttons
 const closeButtons = document.querySelectorAll('.close');
 
-// Open login modal
-loginBtn.addEventListener('click', () => {
-    loginModal.style.display = 'block';
-});
+// Modal handling
+if (loginBtn && loginModal) {
+    loginBtn.addEventListener('click', () => {
+        loginModal.style.display = 'block';
+    });
+}
 
-// Open register modal
-registerBtn.addEventListener('click', () => {
-    registerModal.style.display = 'block';
-});
+if (registerBtn && registerModal) {
+    registerBtn.addEventListener('click', () => {
+        registerModal.style.display = 'block';
+    });
+}
 
 // Close modals when clicking the X button
 closeButtons.forEach(button => {
     button.addEventListener('click', () => {
-        loginModal.style.display = 'none';
-        registerModal.style.display = 'none';
+        if (loginModal) loginModal.style.display = 'none';
+        if (registerModal) registerModal.style.display = 'none';
     });
 });
 
@@ -38,60 +41,68 @@ window.addEventListener('click', (event) => {
 });
 
 // Handle form submissions
-document.getElementById('loginForm').addEventListener('submit', (e) => {
-    e.preventDefault();
-    const email = document.getElementById('loginEmail').value;
-    const password = document.getElementById('loginPassword').value;
-    console.log('Login attempt:', { email, password });
-    // Add your login logic here
-    loginModal.style.display = 'none';
-});
+const loginForm = document.getElementById('loginForm');
+if (loginForm) {
+    loginForm.addEventListener('submit', (e) => {
+        e.preventDefault();
+        const email = document.getElementById('loginEmail').value;
+        const password = document.getElementById('loginPassword').value;
+        console.log('Login attempt:', { email, password });
+        loginModal.style.display = 'none';
+    });
+}
 
-document.getElementById('registerForm').addEventListener('submit', (e) => {
-    e.preventDefault();
-    const name = document.getElementById('registerName').value;
-    const email = document.getElementById('registerEmail').value;
-    const password = document.getElementById('registerPassword').value;
-    const confirmPassword = document.getElementById('confirmPassword').value;
-    
-    if (password !== confirmPassword) {
-        alert('Passwords do not match!');
-        return;
-    }
-    
-    console.log('Registration attempt:', { name, email, password });
-    registerModal.style.display = 'none';
-});
+const registerForm = document.getElementById('registerForm');
+if (registerForm) {
+    registerForm.addEventListener('submit', (e) => {
+        e.preventDefault();
+        const name = document.getElementById('registerName').value;
+        const email = document.getElementById('registerEmail').value;
+        const password = document.getElementById('registerPassword').value;
+        const confirmPassword = document.getElementById('confirmPassword').value;
+        
+        if (password !== confirmPassword) {
+            alert('Passwords do not match!');
+            return;
+        }
+        
+        console.log('Registration attempt:', { name, email, password });
+        registerModal.style.display = 'none';
+    });
+}
 
 // Handle team submission form
-document.getElementById('teamSubmissionForm').addEventListener('submit', (e) => {
-    e.preventDefault();
-    
-    const teamData = {
-        teamName: document.getElementById('teamName').value,
-        leader: {
-            name: document.getElementById('leaderName').value,
-            email: document.getElementById('leaderEmail').value,
-            urn: document.getElementById('leaderURN').value
-        },
-        member2: {
-            name: document.getElementById('member2Name').value,
-            email: document.getElementById('member2Email').value,
-            urn: document.getElementById('member2URN').value
-        },
-        member3: {
-            name: document.getElementById('member3Name').value || 'Not provided',
-            email: document.getElementById('member3Email').value || 'Not provided',
-            urn: document.getElementById('member3URN').value || 'Not provided'
-        }
-    };
-    
-    console.log('Team Registration:', teamData);
-    alert('Team registration submitted successfully!');
-    e.target.reset();
-});
+const teamSubmissionForm = document.getElementById('teamSubmissionForm');
+if (teamSubmissionForm) {
+    teamSubmissionForm.addEventListener('submit', (e) => {
+        e.preventDefault();
+        
+        const teamData = {
+            teamName: document.getElementById('teamName').value,
+            leader: {
+                name: document.getElementById('leaderName').value,
+                email: document.getElementById('leaderEmail').value,
+                urn: document.getElementById('leaderURN').value
+            },
+            member2: {
+                name: document.getElementById('member2Name').value,
+                email: document.getElementById('member2Email').value,
+                urn: document.getElementById('member2URN').value
+            },
+            member3: {
+                name: document.getElementById('member3Name').value || 'Not provided',
+                email: document.getElementById('member3Email').value || 'Not provided',
+                urn: document.getElementById('member3URN').value || 'Not provided'
+            }
+        };
+        
+        console.log('Team Registration:', teamData);
+        alert('Team registration submitted successfully!');
+        e.target.reset();
+    });
+}
 
-// Add this to your existing script.js
+// Background effects
 document.addEventListener('DOMContentLoaded', () => {
     // Remove any existing background
     const existingBackground = document.querySelector('.retro-background');
@@ -132,66 +143,43 @@ document.addEventListener('DOMContentLoaded', () => {
     coinBackground.className = 'coin-background';
     document.body.appendChild(coinBackground);
 
+    // Create coins
     function createCoin() {
         const coin = document.createElement('div');
         coin.className = 'coin';
-        
-        // Random horizontal position
         coin.style.left = `${Math.random() * 100}%`;
-        
-        // Random duration between 4 and 8 seconds
         const duration = 4 + Math.random() * 4;
-        
-        // Apply the animation
         coin.style.animation = `coinFloat ${duration}s linear`;
-        
         coinBackground.appendChild(coin);
 
-        // Remove coin after animation completes
         coin.addEventListener('animationend', () => {
             coin.remove();
         });
 
-        // Create next coin after random delay
-        setTimeout(createCoin, Math.random() * 2000); // Random delay up to 2 seconds
-    }
-
-    // Create initial batch of coins
-    for (let i = 0; i < 5; i++) {
         setTimeout(createCoin, Math.random() * 2000);
     }
 
-    // Create mushroom background container
-    const mushroomBackground = document.createElement('div');
-    mushroomBackground.className = 'coin-background'; // Reuse the same container class
-    document.body.appendChild(mushroomBackground);
-
+    // Create mushrooms
     function createMushroom() {
         const mushroom = document.createElement('div');
         mushroom.className = 'mushroom';
-        
-        // Random horizontal position
         mushroom.style.left = `${Math.random() * 100}%`;
-        
-        // Random duration between 6 and 10 seconds (slower than coins)
         const duration = 6 + Math.random() * 4;
-        
-        // Apply the animation
         mushroom.style.animation = `mushroomFloat ${duration}s linear`;
-        
-        mushroomBackground.appendChild(mushroom);
+        coinBackground.appendChild(mushroom);
 
-        // Remove mushroom after animation completes
         mushroom.addEventListener('animationend', () => {
             mushroom.remove();
         });
 
-        // Create next mushroom after random delay
-        setTimeout(createMushroom, Math.random() * 3000); // Random delay up to 3 seconds
+        setTimeout(createMushroom, Math.random() * 3000);
     }
 
-    // Create initial batch of mushrooms
-    for (let i = 0; i < 3; i++) { // Start with fewer mushrooms
+    // Initialize coins and mushrooms
+    for (let i = 0; i < 5; i++) {
+        setTimeout(createCoin, Math.random() * 2000);
+    }
+    for (let i = 0; i < 3; i++) {
         setTimeout(createMushroom, Math.random() * 3000);
     }
 });
@@ -253,4 +241,80 @@ styleSheet.textContent = `
 document.head.appendChild(styleSheet);
 
 // Initialize scroll progress
-addScrollProgress(); 
+addScrollProgress();
+
+// Add smooth scrolling with glide effect
+let scrollTimeout;
+let lastScrollPosition = window.pageYOffset;
+let ticking = false;
+
+function smoothScroll() {
+    const currentScroll = window.pageYOffset;
+    const distance = lastScrollPosition - currentScroll;
+    
+    if (Math.abs(distance) > 1) {
+        window.scrollTo({
+            top: currentScroll + (distance * 0.15),
+            behavior: 'auto'
+        });
+        requestAnimationFrame(smoothScroll);
+    }
+}
+
+window.addEventListener('scroll', () => {
+    lastScrollPosition = window.pageYOffset;
+    
+    // Clear the previous timeout
+    clearTimeout(scrollTimeout);
+    
+    // Set new timeout
+    scrollTimeout = setTimeout(() => {
+        if (!ticking) {
+            requestAnimationFrame(() => {
+                smoothScroll();
+                ticking = false;
+            });
+            ticking = true;
+        }
+    }, 800); // 0.8 seconds delay
+});
+
+// Add this code to handle header visibility
+document.addEventListener('DOMContentLoaded', () => {
+    const header = document.querySelector('.main-header');
+    let lastScrollY = window.scrollY;
+    let isHeaderVisible = true;
+    
+    // Create trigger area
+    const triggerArea = document.createElement('div');
+    triggerArea.className = 'header-trigger-area';
+    document.body.appendChild(triggerArea);
+
+    // Handle scroll
+    window.addEventListener('scroll', () => {
+        if (window.scrollY > lastScrollY && isHeaderVisible && window.scrollY > 100) {
+            // Scrolling down - hide header
+            header.classList.add('hidden');
+            isHeaderVisible = false;
+        } else if (window.scrollY < lastScrollY && !isHeaderVisible) {
+            // Scrolling up - show header
+            header.classList.remove('hidden');
+            isHeaderVisible = true;
+        }
+        lastScrollY = window.scrollY;
+    });
+
+    // Handle mouse movement
+    triggerArea.addEventListener('mouseenter', () => {
+        header.classList.remove('hidden');
+        isHeaderVisible = true;
+    });
+
+    // Optional: Hide header when mouse leaves the header area
+    header.addEventListener('mouseleave', (e) => {
+        if (window.scrollY > 100 && !triggerArea.matches(':hover')) {
+            header.classList.add('hidden');
+            isHeaderVisible = false;
+        }
+    });
+}); 
