@@ -679,3 +679,129 @@ body {
         transform: translateY(120vh) rotate(360deg);
     }
 }
+
+.special-guest {
+    padding: 80px 0;
+    background: transparent;
+    position: relative;
+    z-index: 2;
+}
+
+.guest-card {
+    display: flex;
+    align-items: center;
+    gap: 40px;
+    background: rgba(0, 0, 0, 0.8);
+    border-radius: 20px;
+    padding: 40px;
+    box-shadow: 0 10px 30px rgba(255, 0, 247, 0.2);
+    margin-top: 40px;
+    transition: transform 0.3s ease;
+    border: 2px solid #ff8800;
+    max-width: 1200px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.guest-card:hover {
+    transform: translateY(-5px);
+    border-color: #ff8000;
+    box-shadow: 0 15px 40px rgba(255, 102, 0, 0.3);
+}
+
+.guest-image {
+    flex: 0 0 300px;
+    opacity: 0;
+    transform: translateX(-30px);
+    transition: all 0.8s cubic-bezier(0.4, 0, 0.2, 1) 0.3s;
+}
+
+.guest-image img {
+    width: 100%;
+    height: 350px;
+    object-fit: cover;
+    border-radius: 15px;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+}
+
+.guest-image.visible {
+    opacity: 1;
+    transform: translateX(0);
+}
+
+.guest-info {
+    flex: 1;
+}
+
+.guest-info h3 {
+    font-size: 2.5rem;
+    color: #ff8800;
+    margin-bottom: 10px;
+    text-shadow: 2px 2px 4px rgba(255, 136, 0, 0.5);
+}
+
+.guest-title {
+    font-size: 1.2rem;
+    color: #00b7ff;
+    margin-bottom: 20px;
+    font-weight: 500;
+}
+
+.guest-description {
+    font-size: 1.1rem;
+    line-height: 1.6;
+    color: #ffffff;
+}
+
+@media (max-width: 768px) {
+    .guest-card {
+        flex-direction: column;
+        text-align: center;
+        padding: 20px;
+    }
+
+    .guest-image {
+        flex: 0 0 auto;
+        width: 100%;
+        max-width: 300px;
+        margin: 0 auto;
+    }
+
+    .guest-info h3 {
+        font-size: 2rem;
+    }
+}
+
+/* About page styles */
+.team-section {
+    margin: 2rem 0;
+    padding: 2rem;
+    background-color: #f5f5f5;
+    border-radius: 8px;
+}
+
+.team-members {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 2rem;
+    margin-top: 1.5rem;
+}
+
+.member {
+    background-color: white;
+    padding: 1.5rem;
+    border-radius: 6px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    text-align: center;
+    transition: transform 0.2s ease;
+}
+
+.member:hover {
+    transform: translateY(-5px);
+}
+
+.member h3 {
+    margin: 0;
+    color: #333;
+    font-size: 1.2rem;
+}

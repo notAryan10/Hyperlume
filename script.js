@@ -60,7 +60,6 @@ document.getElementById('registerForm').addEventListener('submit', (e) => {
     }
     
     console.log('Registration attempt:', { name, email, password });
-    // Add your registration logic here
     registerModal.style.display = 'none';
 });
 
@@ -195,4 +194,63 @@ document.addEventListener('DOMContentLoaded', () => {
     for (let i = 0; i < 3; i++) { // Start with fewer mushrooms
         setTimeout(createMushroom, Math.random() * 3000);
     }
-}); 
+});
+
+// Scroll animation function
+function handleScrollAnimations() {
+    const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                entry.target.classList.add('visible');
+            }
+        });
+    }, {
+        threshold: 0.1
+    });
+
+    // Observe elements
+    const section = document.querySelector('.special-guest');
+    const card = document.querySelector('.guest-card');
+    const image = document.querySelector('.guest-image');
+    const info = document.querySelector('.guest-info');
+
+    observer.observe(section);
+    observer.observe(card);
+    observer.observe(image);
+    observer.observe(info);
+}
+
+// Call the function when the page loads
+document.addEventListener('DOMContentLoaded', handleScrollAnimations);
+
+// Optional: Add a scroll progress indicator
+function addScrollProgress() {
+    const progressBar = document.createElement('div');
+    progressBar.className = 'scroll-progress';
+    document.body.appendChild(progressBar);
+
+    window.addEventListener('scroll', () => {
+        const windowHeight = document.documentElement.scrollHeight - window.innerHeight;
+        const progress = (window.scrollY / windowHeight) * 100;
+        progressBar.style.width = `${progress}%`;
+    });
+}
+
+// Add these styles for the progress bar
+const styleSheet = document.createElement('style');
+styleSheet.textContent = `
+    .scroll-progress {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 0;
+        height: 3px;
+        background: linear-gradient(to right, #ff8800, #ff00f7);
+        z-index: 1000;
+        transition: width 0.2s ease;
+    }
+`;
+document.head.appendChild(styleSheet);
+
+// Initialize scroll progress
+addScrollProgress(); 
