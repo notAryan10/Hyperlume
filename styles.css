@@ -1143,3 +1143,26 @@ html {
         padding: 8px;
     }
 }
+
+.social-links {
+    display: flex;
+    justify-content: center;
+    gap: 1rem;
+    margin-top: 1rem;
+}
+
+.social-link {
+    color: #ff8800;
+    font-size: 1.5rem;
+    transition: all 0.3s ease;
+}
+
+.social-link:hover {
+    color: #ff6600;
+    transform: translateY(-3px);
+}
+
+/* Update member padding to accommodate social links */
+.member {
+    padding: 1.5rem;
+}
