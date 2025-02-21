@@ -6,6 +6,45 @@
     <title>Upload Your Game - Hyperlume</title>
     <link rel="stylesheet" href="styles.css">
     <style>
+        @keyframes slideIn {
+            from {
+                transform: translateX(-100px);
+                opacity: 0;
+            }
+            to {
+                transform: translateX(0);
+                opacity: 1;
+            }
+        }
+
+        @keyframes fadeInUp {
+            from {
+                transform: translateY(20px);
+                opacity: 0;
+            }
+            to {
+                transform: translateY(0);
+                opacity: 1;
+            }
+        }
+
+        @keyframes glowPulse {
+            0% {
+                box-shadow: 0 0 5px #FFD700;
+            }
+            50% {
+                box-shadow: 0 0 20px #FFD700;
+            }
+            100% {
+                box-shadow: 0 0 5px #FFD700;
+            }
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
         .upload-form-container {
             background: rgba(0, 0, 0, 0.8);
             border: 2px solid #FFD700;
@@ -14,11 +53,19 @@
             margin-top: 20px;
             position: relative;
             z-index: 2;
+            animation: fadeInUp 0.8s ease-out;
         }
 
         .form-group {
             margin-bottom: 20px;
+            animation: slideIn 0.5s ease-out forwards;
+            opacity: 0;
         }
+
+        .form-group:nth-child(1) { animation-delay: 0.2s; }
+        .form-group:nth-child(2) { animation-delay: 0.4s; }
+        .form-group:nth-child(3) { animation-delay: 0.6s; }
+        .form-group:nth-child(4) { animation-delay: 0.8s; }
 
         .form-group label {
             display: block;
@@ -36,6 +83,14 @@
             border: 1px solid #FFD700;
             color: #FFD700;
             font-family: 'Press Start 2P', monospace;
+            transition: all 0.3s ease;
+        }
+
+        .form-group input:focus,
+        .form-group textarea:focus,
+        .form-group select:focus {
+            animation: glowPulse 2s infinite;
+            outline: none;
         }
 
         .submit-btn {
@@ -47,12 +102,86 @@
             font-family: 'Press Start 2P', monospace;
             cursor: pointer;
             margin-top: 20px;
+            position: relative;
+            overflow: hidden;
+            transition: all 0.3s ease;
+        }
+
+        .submit-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(255, 215, 0, 0.3);
+        }
+
+        .submit-btn.loading {
+            pointer-events: none;
+            opacity: 0.8;
+        }
+
+        .submit-btn.loading::after {
+            content: '';
+            position: absolute;
+            width: 20px;
+            height: 20px;
+            top: 50%;
+            left: 50%;
+            margin: -10px 0 0 -10px;
+            border: 3px solid rgba(255, 255, 255, 0.3);
+            border-top-color: #ffffff;
+            border-radius: 50%;
+            animation: spin 1s infinite linear;
         }
 
         .submission-status {
             color: #FFD700;
             text-shadow: 0 0 10px #FFD700;
             margin-bottom: 30px;
+        }
+
+        /* Hover effect for form inputs */
+        .form-group input:hover,
+        .form-group textarea:hover,
+        .form-group select:hover {
+            transform: translateX(5px);
+            border-color: #FF1493;
+        }
+
+        /* Add loading animation to submit button */
+        .preview-btn, .submit-btn {
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .preview-btn::before,
+        .submit-btn::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: linear-gradient(
+                45deg,
+                transparent,
+                rgba(255, 215, 0, 0.1),
+                transparent
+            );
+            transform: rotate(45deg);
+            transition: all 0.3s ease;
+        }
+
+        .preview-btn:hover::before,
+        .submit-btn:hover::before {
+            animation: shine 1.5s infinite;
+        }
+
+        @keyframes shine {
+            0% {
+                transform: translateX(-100%) rotate(45deg);
+            }
+            100% {
+                transform: translateX(100%) rotate(45deg);
+            }
         }
     </style>
 </head>
@@ -185,5 +314,41 @@
 
     <script src="script.js"></script>
     <script src="mouseTrail.js"></script>
+    <script>
+        // Form submission animation
+        const form = document.getElementById('gameSubmissionForm');
+        const submitBtn = form.querySelector('.submit-btn');
+
+        form.addEventListener('submit', (e) => {
+            e.preventDefault();
+            submitBtn.classList.add('loading');
+            submitBtn.textContent = 'Uploading...';
+
+            // Simulate form submission (replace with actual submission logic)
+            setTimeout(() => {
+                submitBtn.classList.remove('loading');
+                submitBtn.textContent = 'Submitted!';
+                submitBtn.style.backgroundColor = '#32CD32';
+                
+                // Reset button after 2 seconds
+                setTimeout(() => {
+                    submitBtn.textContent = 'Submit Game';
+                    submitBtn.style.backgroundColor = '';
+                }, 2000);
+            }, 2000);
+        });
+
+        // Add input animation triggers
+        const inputs = form.querySelectorAll('input, textarea, select');
+        inputs.forEach(input => {
+            input.addEventListener('focus', () => {
+                input.parentElement.style.transform = 'scale(1.02)';
+            });
+
+            input.addEventListener('blur', () => {
+                input.parentElement.style.transform = 'scale(1)';
+            });
+        });
+    </script>
 </body>
 </html> 

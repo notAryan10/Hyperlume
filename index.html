@@ -123,6 +123,12 @@
             background-image: linear-gradient(rgba(20, 20, 20, 0.7) 1px, transparent 1px),
                               linear-gradient(90deg, rgba(20, 20, 20, 0.7) 1px, transparent 1px);
             background-size: 30px 30px;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .game-container:hover {
+            transform: scale(1.02);
+            box-shadow: 0 0 30px rgba(255, 215, 0, 0.3);
         }
 
         .spaceship {
@@ -135,6 +141,14 @@
             background: #FFD700;
             clip-path: polygon(50% 0%, 0% 100%, 100% 100%);
             filter: drop-shadow(0 0 10px #FFD700);
+            animation: hover 2s ease-in-out infinite;
+
+        }
+
+
+        @keyframes hover {
+            0%, 100% { transform: translateY(0) translateX(-50%); }
+            50% { transform: translateY(-10px) translateX(-50%); }
         }
 
         .laser {
@@ -196,6 +210,115 @@
             margin: 10px;
             border-radius: 5px;
         }
+
+        /* Welcome Text Animation */
+        .welcome-text {
+            animation: textGlow 2s ease-in-out infinite alternate;
+            position: relative;
+        }
+
+        @keyframes textGlow {
+            from {
+                text-shadow: 0 0 10px #FFD700,
+                            0 0 20px #FFD700;
+            }
+            to {
+                text-shadow: 0 0 20px #FFD700,
+                            0 0 30px #FFD700,
+                            0 0 40px #FF1493;
+            }
+        }
+
+        /* Score Counter Animation */
+        @keyframes scorePopup {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.5); }
+            100% { transform: scale(1); }
+        }
+
+        /* Leaderboard Animations */
+        .leaderboard-card {
+            animation: slideInUp 1s ease-out;
+        }
+
+        @keyframes slideInUp {
+            from {
+                transform: translateY(100px);
+                opacity: 0;
+            }
+            to {
+                transform: translateY(0);
+                opacity: 1;
+            }
+        }
+
+        .leaderboard-row {
+            animation: fadeIn 0.5s ease-out forwards;
+            opacity: 0;
+        }
+
+        @keyframes fadeIn {
+            to { opacity: 1; }
+        }
+
+        .leaderboard-row:nth-child(1) { animation-delay: 0.2s; }
+        .leaderboard-row:nth-child(2) { animation-delay: 0.3s; }
+        .leaderboard-row:nth-child(3) { animation-delay: 0.4s; }
+        .leaderboard-row:nth-child(4) { animation-delay: 0.5s; }
+        .leaderboard-row:nth-child(5) { animation-delay: 0.6s; }
+        .leaderboard-row:nth-child(6) { animation-delay: 0.7s; }
+        .leaderboard-row:nth-child(7) { animation-delay: 0.8s; }
+        .leaderboard-row:nth-child(8) { animation-delay: 0.9s; }
+        .leaderboard-row:nth-child(9) { animation-delay: 1.0s; }
+        .leaderboard-row:nth-child(10) { animation-delay: 1.1s; }
+
+        /* Special Guest Card Animation */
+        .guest-card {
+            animation: cardFloat 3s ease-in-out infinite;
+            transition: transform 0.3s ease;
+        }
+
+        .guest-card:hover {
+            transform: translateY(-10px) scale(1.02);
+        }
+
+        @keyframes cardFloat {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-15px); }
+        }
+
+        /* Form Animations */
+        .submission-form {
+            animation: formSlideIn 0.8s ease-out;
+        }
+
+        @keyframes formSlideIn {
+            from {
+                transform: translateX(-100%);
+                opacity: 0;
+            }
+            to {
+                transform: translateX(0);
+                opacity: 1;
+            }
+        }
+
+        .member-section {
+            animation: fadeInScale 0.5s ease-out forwards;
+            opacity: 0;
+            transform: scale(0.9);
+        }
+
+        @keyframes fadeInScale {
+            to {
+                opacity: 1;
+                transform: scale(1);
+            }
+        }
+
+        .member-section:nth-child(1) { animation-delay: 0.2s; }
+        .member-section:nth-child(2) { animation-delay: 0.4s; }
+        .member-section:nth-child(3) { animation-delay: 0.6s; }
     </style>
 </head>
 <body>
@@ -558,7 +681,7 @@
                         laser.remove();
                         clearInterval(laserInterval);
                         score += 10;
-                        scoreElement.textContent = score;
+                        updateScore(score);
                     }
                 });
 
@@ -637,6 +760,30 @@
 
         gameContainer.addEventListener('mousemove', moveSpaceship);
         gameContainer.addEventListener('click', shoot);
+
+        // Score animation
+        function updateScore(newScore) {
+            const scoreElement = document.getElementById('score');
+            scoreElement.style.animation = 'scorePopup 0.3s ease';
+            scoreElement.textContent = newScore;
+            scoreElement.addEventListener('animationend', () => {
+                scoreElement.style.animation = '';
+            });
+        }
+
+        // Add intersection observer for animations
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.style.visibility = 'visible';
+                    entry.target.style.animation = entry.target.dataset.animation;
+                }
+            });
+        }, { threshold: 0.1 });
+
+        // Observe elements
+        document.querySelectorAll('.leaderboard-card, .guest-card, .submission-form')
+            .forEach(el => observer.observe(el));
     </script>
     <script src="mouseTrail.js"></script>
 </body>
