@@ -5,6 +5,105 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Game Development Website</title>
     <link rel="stylesheet" href="styles.css">
+    <style>
+        /* Gold Effect - 1st Place */
+        .leaderboard-row.gold {
+            background: linear-gradient(45deg, rgba(255, 215, 0, 0.1), rgba(255, 215, 0, 0.2));
+            border: 1px solid #FFD700;
+        }
+        
+        .leaderboard-row.gold .rank,
+        .leaderboard-row.gold .team,
+        .leaderboard-row.gold .score {
+            color: #FFD700;
+            text-shadow: 0 0 10px #FFD700,
+                         0 0 20px #FFD700,
+                         0 0 30px #FFD700;
+            animation: goldGlow 2s ease-in-out infinite alternate;
+        }
+
+        @keyframes goldGlow {
+            from {
+                text-shadow: 0 0 10px #FFD700,
+                            0 0 20px #FFD700;
+            }
+            to {
+                text-shadow: 0 0 20px #FFD700,
+                            0 0 30px #FFD700,
+                            0 0 40px #FFD700;
+            }
+        }
+
+        /* Silver Effect - 2nd Place */
+        .leaderboard-row.silver {
+            background: linear-gradient(45deg, rgba(192, 192, 192, 0.1), rgba(192, 192, 192, 0.2));
+            border: 1px solid #C0C0C0;
+        }
+
+        .leaderboard-row.silver .rank,
+        .leaderboard-row.silver .team,
+        .leaderboard-row.silver .score {
+            color: #C0C0C0;
+            text-shadow: 0 0 10px #C0C0C0;
+        }
+
+        /* Bronze Effect - 3rd Place */
+        .leaderboard-row.bronze {
+            background: linear-gradient(45deg, rgba(205, 127, 50, 0.1), rgba(205, 127, 50, 0.2));
+            border: 1px solid #CD7F32;
+        }
+
+        .leaderboard-row.bronze .rank,
+        .leaderboard-row.bronze .team,
+        .leaderboard-row.bronze .score {
+            color: #CD7F32;
+            text-shadow: 0 0 10px #CD7F32;
+        }
+
+        /* Audio Controls Styling */
+        .audio-controls {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            z-index: 1000;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            background: rgba(0, 0, 0, 0.7);
+            padding: 10px;
+            border-radius: 50px;
+            border: 1px solid #FFD700;
+        }
+
+        .audio-controls button {
+            background: none;
+            border: none;
+            cursor: pointer;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s ease;
+            padding: 0;
+        }
+
+        .audio-controls button img {
+            width: 30px;
+            height: 30px;
+            filter: brightness(0) saturate(100%) invert(83%) sepia(71%) saturate(638%) hue-rotate(359deg) brightness(103%) contrast(107%);
+            transition: all 0.3s ease;
+        }
+
+        .audio-controls button:hover {
+            background: rgba(255, 215, 0, 0.2);
+        }
+
+        .audio-controls button.active img {
+            filter: brightness(0) saturate(100%) invert(100%) sepia(0%) saturate(0%) hue-rotate(93deg) brightness(103%) contrast(103%);
+        }
+    </style>
 </head>
 <body>
     <header class="main-header">
@@ -16,7 +115,7 @@
                 <ul>
                     <li><a href="#home">Home</a></li>
                     <li><a href="about.html">OurTeam</a></li>
-                    <li><a href="#contact">Contact</a></li>
+                    <li><a href="upload.html">Upload</a></li>
                 </ul>
             </nav>
             <div class="auth-buttons">
@@ -134,22 +233,25 @@
                             <span class="team">Team Name</span>
                             <span class="score">Score</span>
                         </div>
-                        <!-- Empty slots with placeholder text -->
-                        <div class="leaderboard-row">
+                        <!-- Gold - 1st Place -->
+                        <div class="leaderboard-row gold">
                             <span class="rank">#1</span>
                             <span class="team">---</span>
                             <span class="score">---</span>
                         </div>
-                        <div class="leaderboard-row">
+                        <!-- Silver - 2nd Place -->
+                        <div class="leaderboard-row silver">
                             <span class="rank">#2</span>
                             <span class="team">---</span>
                             <span class="score">---</span>
                         </div>
-                        <div class="leaderboard-row">
+                        <!-- Bronze - 3rd Place -->
+                        <div class="leaderboard-row bronze">
                             <span class="rank">#3</span>
                             <span class="team">---</span>
                             <span class="score">---</span>
                         </div>
+                        <!-- Regular rows -->
                         <div class="leaderboard-row">
                             <span class="rank">#4</span>
                             <span class="team">---</span>
@@ -236,6 +338,51 @@
         </div>
     </div>
 
+    <audio id="bgMusic" loop>
+        <source src="Assets/AdhesiveWombat.mp3" type="audio/mp3">
+        Your browser does not support the audio element.
+    </audio>
+
+    <div class="audio-controls">
+        <button id="musicToggle" onclick="toggleMusic()">
+            <img src="Assets/Music.png" alt="Toggle Music">
+        </button>
+    </div>
+
     <script src="script.js"></script>
+    <script>
+        const bgMusic = document.getElementById('bgMusic');
+        const musicToggle = document.getElementById('musicToggle');
+        let isMusicPlaying = false;
+
+        // Function to toggle music
+        function toggleMusic() {
+            if (isMusicPlaying) {
+                bgMusic.pause();
+                musicToggle.classList.remove('active');
+            } else {
+                bgMusic.play();
+                musicToggle.classList.add('active');
+            }
+            isMusicPlaying = !isMusicPlaying;
+        }
+
+        // Add event listener for when the page loads
+        document.addEventListener('DOMContentLoaded', function() {
+            // Start music muted by default
+            bgMusic.volume = 0.5; // Set volume to 50%
+        });
+
+        // Handle user interaction to start playing
+        document.addEventListener('click', function() {
+            if (!isMusicPlaying) {
+                bgMusic.play().catch(function(error) {
+                    console.log("Audio play failed:", error);
+                });
+                isMusicPlaying = true;
+                musicToggle.classList.add('active');
+            }
+        }, { once: true });
+    </script>
 </body>
 </html>

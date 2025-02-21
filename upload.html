@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Upload Your Game - Hyperlume</title>
+    <link rel="stylesheet" href="styles.css">
+    <style>
+        .upload-form-container {
+            background: rgba(0, 0, 0, 0.8);
+            border: 2px solid #FFD700;
+            padding: 30px;
+            border-radius: 10px;
+            margin-top: 20px;
+            position: relative;
+            z-index: 2;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 10px;
+            color: #FFD700;
+            text-shadow: 0 0 10px #FFD700;
+        }
+
+        .form-group input,
+        .form-group textarea,
+        .form-group select {
+            width: 100%;
+            padding: 10px;
+            background: rgba(255, 255, 255, 0.1);
+            border: 1px solid #FFD700;
+            color: #FFD700;
+            font-family: 'Press Start 2P', monospace;
+        }
+
+        .submit-btn {
+            width: 100%;
+            padding: 15px;
+            background: linear-gradient(90deg, #FF4500, #FF1493);
+            border: none;
+            color: white;
+            font-family: 'Press Start 2P', monospace;
+            cursor: pointer;
+            margin-top: 20px;
+        }
+
+        .submission-status {
+            color: #FFD700;
+            text-shadow: 0 0 10px #FFD700;
+            margin-bottom: 30px;
+        }
+    </style>
+</head>
+<body>
+    <!-- Add background effects containers -->
+    <div class="retro-background">
+        <div class="grid"></div>
+        <!-- Scanlines will be added by JavaScript -->
+    </div>
+    
+    <div class="coin-background">
+        <!-- Coins will be added by JavaScript -->
+    </div>
+
+    <!-- Add navigation menu -->
+    <header class="main-header">
+        <div class="header-container">
+            <div class="logo">
+                <h1>Hyperlume</h1>
+            </div>
+            <nav class="nav-menu">
+                <ul>
+                    <li><a href="index.html">Home</a></li>
+                    <li><a href="about.html">OurTeam</a></li>
+                    <li><a href="upload.html">Upload</a></li>
+                </ul>
+            </nav>
+            <div class="auth-buttons">
+                <button class="btn login">Login</button>
+                <button class="btn register">Register</button>
+            </div>
+        </div>
+    </header>
+
+    <div class="container" style="margin-top: 100px; position: relative; z-index: 2;">
+        <div class="upload-form-container">
+            <div class="submission-status">
+                • Submission Open
+                <div>Deadline: Feb 27, 2025 23:59 IST</div>
+            </div>
+
+            <form id="gameSubmissionForm">
+                <div class="form-group">
+                    <label for="teamName">Team Information</label>
+                    <input type="text" id="teamName" placeholder="Team Name" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="itchioURL">Game Details</label>
+                    <input type="url" 
+                           id="itchioURL"
+                           placeholder="https://username.itch.io/game-name"
+                           pattern="https?:\/\/([\w-]+\.)?itch\.io\/.*"
+                           required>
+                </div>
+
+                <div class="form-group">
+                    <label for="gameDescription">Game Description</label>
+                    <textarea id="gameDescription"
+                              rows="4" 
+                              placeholder="Describe your game's concept, gameplay, and unique features..."
+                              required></textarea>
+                </div>
+
+                <div class="form-group">
+                    <label for="gameGenre">Game Genre</label>
+                    <select id="gameGenre" required>
+                        <option value="">Select a genre</option>
+                        <option value="action">Action</option>
+                        <option value="adventure">Adventure</option>
+                        <option value="puzzle">Puzzle</option>
+                        <option value="strategy">Strategy</option>
+                        <option value="rpg">RPG</option>
+                        <option value="simulation">Simulation</option>
+                        <option value="other">Other</option>
+                    </select>
+                </div>
+
+                <button type="button" class="btn preview-btn">Preview Game</button>
+                <button type="submit" class="btn submit-btn">Submit Game</button>
+            </form>
+        </div>
+    </div>
+
+    <!-- Login Modal -->
+    <div class="modal" id="loginModal">
+        <div class="modal-content">
+            <span class="close">&times;</span>
+            <h2>Login</h2>
+            <form id="loginForm">
+                <div class="form-group">
+                    <label for="loginEmail">Email</label>
+                    <input type="email" id="loginEmail" required>
+                </div>
+                <div class="form-group">
+                    <label for="loginPassword">Password</label>
+                    <input type="password" id="loginPassword" required>
+                </div>
+                <button type="submit" class="btn submit-btn">Login</button>
+            </form>
+        </div>
+    </div>
+
+    <!-- Register Modal -->
+    <div class="modal" id="registerModal">
+        <div class="modal-content">
+            <span class="close">&times;</span>
+            <h2>Register</h2>
+            <form id="registerForm">
+                <div class="form-group">
+                    <label for="registerName">Full Name</label>
+                    <input type="text" id="registerName" required>
+                </div>
+                <div class="form-group">
+                    <label for="registerEmail">Email</label>
+                    <input type="email" id="registerEmail" required>
+                </div>
+                <div class="form-group">
+                    <label for="registerPassword">Password</label>
+                    <input type="password" id="registerPassword" required>
+                </div>
+                <div class="form-group">
+                    <label for="confirmPassword">Confirm Password</label>
+                    <input type="password" id="confirmPassword" required>
+                </div>
+                <button type="submit" class="btn submit-btn">Register</button>
+            </form>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html> 
