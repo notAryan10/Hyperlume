@@ -103,6 +103,99 @@
         .audio-controls button.active img {
             filter: brightness(0) saturate(100%) invert(100%) sepia(0%) saturate(0%) hue-rotate(93deg) brightness(103%) contrast(103%);
         }
+
+        .minigame-section {
+            margin: 40px 0;
+            text-align: center;
+            position: relative;
+            z-index: 2;
+        }
+
+        .game-container {
+            width: 600px;
+            height: 400px;
+            margin: 0 auto;
+            position: relative;
+            background: rgba(0, 0, 0, 0.8);
+            border: 2px solid #FFD700;
+            overflow: hidden;
+            cursor: crosshair;
+            background-image: linear-gradient(rgba(20, 20, 20, 0.7) 1px, transparent 1px),
+                              linear-gradient(90deg, rgba(20, 20, 20, 0.7) 1px, transparent 1px);
+            background-size: 30px 30px;
+        }
+
+        .spaceship {
+            width: 40px;
+            height: 40px;
+            position: absolute;
+            bottom: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: #FFD700;
+            clip-path: polygon(50% 0%, 0% 100%, 100% 100%);
+            filter: drop-shadow(0 0 10px #FFD700);
+        }
+
+        .laser {
+            width: 4px;
+            height: 15px;
+            background: #FF1493;
+            position: absolute;
+            border-radius: 2px;
+            box-shadow: 0 0 10px #FF1493;
+        }
+
+        .enemy {
+            width: 30px;
+            height: 30px;
+            position: absolute;
+            background: #FFD700;
+            clip-path: polygon(50% 0%, 100% 50%, 50% 100%, 0% 50%);
+            animation: enemyGlow 1s ease-in-out infinite alternate;
+        }
+
+        @keyframes enemyGlow {
+            from { filter: drop-shadow(0 0 5px #FFD700); }
+            to { filter: drop-shadow(0 0 15px #FFD700); }
+        }
+
+        .game-stats {
+            color: #FFD700;
+            font-family: 'Press Start 2P', monospace;
+            margin: 20px 0;
+            text-shadow: 0 0 10px #FFD700;
+            display: flex;
+            justify-content: center;
+            gap: 40px;
+        }
+
+        .game-over {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            color: #FFD700;
+            font-size: 24px;
+            display: none;
+            text-shadow: 0 0 10px #FFD700;
+            text-align: center;
+            background: rgba(0, 0, 0, 0.8);
+            padding: 20px;
+            border: 2px solid #FFD700;
+            border-radius: 10px;
+        }
+
+        .start-button {
+            background: linear-gradient(90deg, #FF4500, #FF1493);
+            border: none;
+            padding: 10px 20px;
+            color: white;
+            cursor: pointer;
+            font-family: 'Press Start 2P', monospace;
+            margin: 10px;
+            border-radius: 5px;
+        }
     </style>
 </head>
 <body>
@@ -291,6 +384,26 @@
                 </div>
             </div>
         </section>
+
+        <!-- Add this after the leaderboard section -->
+        <section class="minigame-section">
+            <div class="container">
+                <h2 style="color: #FFD700; text-shadow: 0 0 10px #FFD700;">Space Shooter</h2>
+                <div class="game-stats">
+                    <div>Score: <span id="score">0</span></div>
+                    <div>High Score: <span id="highScore">0</span></div>
+                </div>
+                <div class="game-container" id="gameContainer">
+                    <div class="spaceship" id="spaceship"></div>
+                    <div class="game-over" id="gameOver">
+                        Game Over!<br>
+                        <span id="finalScore"></span><br>
+                        <button class="start-button" onclick="startGame()">Play Again</button>
+                    </div>
+                </div>
+                <button class="start-button" onclick="startGame()">Start Game</button>
+            </div>
+        </section>
     </div>
 
     <!-- Add the modal forms after the mainbody div -->
@@ -343,6 +456,10 @@
         Your browser does not support the audio element.
     </audio>
 
+    <audio id="keyboardSound">
+        <source src="Assets/mech-keyboard.mp3" type="audio/mp3">
+    </audio>
+
     <div class="audio-controls">
         <button id="musicToggle" onclick="toggleMusic()">
             <img src="Assets/Music.png" alt="Toggle Music">
@@ -370,7 +487,7 @@
         // Add event listener for when the page loads
         document.addEventListener('DOMContentLoaded', function() {
             // Start music muted by default
-            bgMusic.volume = 0.5; // Set volume to 50%
+            bgMusic.volume = 0.2; // Set volume to 20% instead of 50%
         });
 
         // Handle user interaction to start playing
@@ -383,6 +500,143 @@
                 musicToggle.classList.add('active');
             }
         }, { once: true });
+
+        let gameActive = false;
+        let score = 0;
+        let highScore = 0;
+        let spaceshipPos = 50;
+        const gameContainer = document.getElementById('gameContainer');
+        const spaceship = document.getElementById('spaceship');
+        const scoreElement = document.getElementById('score');
+        const highScoreElement = document.getElementById('highScore');
+        const gameOver = document.getElementById('gameOver');
+        const finalScore = document.getElementById('finalScore');
+
+        function startGame() {
+            if (gameActive) return;
+            gameActive = true;
+            score = 0;
+            scoreElement.textContent = score;
+            gameOver.style.display = 'none';
+            spawnEnemies();
+        }
+
+        function moveSpaceship(e) {
+            if (!gameActive) return;
+            
+            // Only play sound if position actually changed
+            const oldPos = spaceshipPos;
+            const containerRect = gameContainer.getBoundingClientRect();
+            const x = e.clientX - containerRect.left;
+            spaceshipPos = (x / containerRect.width) * 100;
+            spaceshipPos = Math.max(5, Math.min(95, spaceshipPos));
+            
+            spaceship.style.left = spaceshipPos + '%';
+        }
+
+        function shoot(e) {
+            if (!gameActive) return;
+            
+            // Play keyboard sound
+            keyboardSound.currentTime = 0; // Reset sound to start
+            keyboardSound.play();
+
+            const laser = document.createElement('div');
+            laser.className = 'laser';
+            laser.style.left = spaceshipPos + '%';
+            laser.style.bottom = '60px';
+            gameContainer.appendChild(laser);
+
+            const laserInterval = setInterval(() => {
+                const laserRect = laser.getBoundingClientRect();
+                const enemies = document.getElementsByClassName('enemy');
+
+                Array.from(enemies).forEach(enemy => {
+                    const enemyRect = enemy.getBoundingClientRect();
+                    if (isColliding(laserRect, enemyRect)) {
+                        enemy.remove();
+                        laser.remove();
+                        clearInterval(laserInterval);
+                        score += 10;
+                        scoreElement.textContent = score;
+                    }
+                });
+
+                if (parseInt(laser.style.bottom) > gameContainer.offsetHeight) {
+                    laser.remove();
+                    clearInterval(laserInterval);
+                } else {
+                    laser.style.bottom = parseInt(laser.style.bottom) + 5 + 'px';
+                }
+            }, 16);
+        }
+
+        function spawnEnemies() {
+            if (!gameActive) return;
+            
+            const enemy = document.createElement('div');
+            enemy.className = 'enemy';
+            enemy.style.left = Math.random() * (gameContainer.offsetWidth - 30) + 'px';
+            enemy.style.top = '-30px';
+            gameContainer.appendChild(enemy);
+
+            let enemyPos = -30;
+            const enemyInterval = setInterval(() => {
+                if (!gameActive) {
+                    clearInterval(enemyInterval);
+                    return;
+                }
+
+                enemyPos += 2;
+                enemy.style.top = enemyPos + 'px';
+
+                // Check for collision with spaceship
+                const enemyRect = enemy.getBoundingClientRect();
+                const spaceshipRect = spaceship.getBoundingClientRect();
+                
+                if (isColliding(enemyRect, spaceshipRect)) {
+                    enemy.remove();
+                    clearInterval(enemyInterval);
+                    endGame();
+                    return;
+                }
+
+                // Remove enemy when it's off screen but don't end game
+                if (enemyPos > gameContainer.offsetHeight) {
+                    enemy.remove();
+                    clearInterval(enemyInterval);
+                }
+            }, 16);
+
+            // Spawn next enemy
+            setTimeout(() => {
+                if (gameActive) spawnEnemies();
+            }, 1000);
+        }
+
+        function isColliding(rect1, rect2) {
+            return !(rect1.right < rect2.left || 
+                    rect1.left > rect2.right || 
+                    rect1.bottom < rect2.top || 
+                    rect1.top > rect2.bottom);
+        }
+
+        function endGame() {
+            gameActive = false;
+            if (score > highScore) {
+                highScore = score;
+                highScoreElement.textContent = highScore;
+            }
+            finalScore.textContent = `Final Score: ${score}`;
+            gameOver.style.display = 'block';
+            const enemies = document.getElementsByClassName('enemy');
+            while(enemies.length > 0) {
+                enemies[0].remove();
+            }
+        }
+
+        gameContainer.addEventListener('mousemove', moveSpaceship);
+        gameContainer.addEventListener('click', shoot);
     </script>
 </body>
 </html>
