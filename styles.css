@@ -173,7 +173,7 @@ body {
 
 .welcome-text {
     position: absolute;
-    bottom: 250px;
+    bottom: 270px;
     left: 50%;
     transform: translateX(-50%);
     font-size: 3rem;

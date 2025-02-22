@@ -319,6 +319,31 @@
         .member-section:nth-child(1) { animation-delay: 0.2s; }
         .member-section:nth-child(2) { animation-delay: 0.4s; }
         .member-section:nth-child(3) { animation-delay: 0.6s; }
+
+        @keyframes footerGlow {
+            from {
+                text-shadow: 0 0 10px #FFD700,
+                            0 0 20px #FFD700;
+                transform: scale(1);
+            }
+            to {
+                text-shadow: 0 0 20px #FFD700,
+                            0 0 30px #FFD700,
+                            0 0 40px #FF1493;
+                transform: scale(1.05);
+            }
+        }
+
+        .footer-text:hover {
+            transform: translateY(-5px) scale(1.1);
+            animation: shake 0.5s ease-in-out;
+        }
+
+        @keyframes shake {
+            0%, 100% { transform: translateX(0) translateY(-5px) scale(1.1); }
+            25% { transform: translateX(-5px) translateY(-5px) scale(1.1); }
+            75% { transform: translateX(5px) translateY(-5px) scale(1.1); }
+        }
     </style>
 </head>
 <body>
@@ -786,5 +811,22 @@
             .forEach(el => observer.observe(el));
     </script>
     <script src="mouseTrail.js"></script>
+    
+    <!-- Add footer before closing body tag -->
+    <footer style="text-align: center; padding: 20px; color: #FFD700; position: relative; z-index: 2;">
+        <p class="footer-text" style="
+            font-size: 1.2em;
+            text-shadow: 0 0 10px #FFD700;
+            animation: footerGlow 2s ease-in-out infinite alternate;
+            transition: transform 0.3s ease;
+            cursor: pointer;
+            display: inline-block;
+        ">Frontend by <span style="
+            background: linear-gradient(90deg, #FFD700, #FF1493);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            font-weight: bold;
+        ">Aryan Verma</span></p>
+    </footer>
 </body>
 </html>
